@@ -10,4 +10,9 @@ def get_todo_list(request):
 
     } 
     return render(request, 'todo/todo_list.html', context)  #  add context as arg so can be accessed in todo_list.html template
+
+
+def add_item(request):
+    return render(request, 'todo/add_item.html')  
+    
     
