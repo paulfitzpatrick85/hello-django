@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Item
+from .forms import ItemForm
 
 
 # Create your views here.
@@ -14,12 +15,16 @@ def get_todo_list(request):
 
 def add_item(request):
     if request.method == "POST":
-        name = request.POST.get('item_name')  # the input in add_item.html
-        done = 'done' in request.POST  # boolean value, check that checkbox is ticked basically
-        Item.objects.create(name=name, done=done)  #create an item
-        return redirect('get_todo_list')  #directed here after adding item
+        form = ItemForm(request.POST)  # populate form in django with request.POST data instead of doing it manually
+        if form.is_valid():   # is_valid= django compare data in post request to data required on model
+            form.save()        # see commits for original code
 
-    return render(request, 'todo/add_item.html') 
+        return redirect('get_todo_list')  #directed here after adding item
+    form = ItemForm()
+    context = {
+        'form': form
+    }
+    return render(request, 'todo/add_item.html', context)
         
     
     
