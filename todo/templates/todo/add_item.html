@@ -10,6 +10,7 @@
     <h1>Add a todo item:</h1>
     <!--mechanism for user to create item-->
     <form method="POST" action="add">
+        {% csrf_token %} <!--cross site request forgery token, for security, that info is coming from this source-->
         <div>
             <p>
                 <label for="id_name">Name:</label>
@@ -20,7 +21,7 @@
         <div>
             <p>
                 <label for="id_done">Done:</label>
-                <input type="checkbox" id="id_done" name="item_done" />
+                <input type="checkbox" id="id_done" name="done" />
                 <!--name is used to access this value in the view function-->
             </p>
         </div>

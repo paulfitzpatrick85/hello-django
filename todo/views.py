@@ -1,10 +1,10 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, redirect
 from .models import Item
 
 
 # Create your views here.
 def get_todo_list(request):
-    items = Item.objects.all()  #query set of all items in the db
+    items = Item.objects.all()  # query set of all items in the db
     context = {        # dict with items
         'items': items
 
@@ -13,6 +13,13 @@ def get_todo_list(request):
 
 
 def add_item(request):
-    return render(request, 'todo/add_item.html')  
+    if request.method == "POST":
+        name = request.POST.get('item_name')  # the input in add_item.html
+        done = 'done' in request.POST  # boolean value, check that checkbox is ticked basically
+        Item.objects.create(name=name, done=done)  #create an item
+        return redirect('get_todo_list')  #directed here after adding item
+
+    return render(request, 'todo/add_item.html') 
+        
     
     
