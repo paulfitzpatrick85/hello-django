@@ -1,8 +1,8 @@
 import os
 import dj_database_url
 
-if os.path.exists("env.py"):
-    import env
+# if os.path.exists("env.py"):
+#     import env
 
 development = os.environ.get('DEVELOPMENT', False)
 
@@ -33,7 +33,10 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-@c_-b)u^)=hk(2sh$m_0(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = development
 
-ALLOWED_HOSTS = ['pf-django-todo-app.herokuapp.com']
+if development:
+    ALLOWED_HOSTS = ['localhost']
+else:
+    ALLOWED_HOSTS = [os.environ.get('HEROKU_HOSTNAME')]
 
 
 # Application definition
@@ -85,7 +88,7 @@ if development:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+            'NAME': os.path.join(BASE_DIR / 'db.sqlite3'),
         }
     }
 else:
